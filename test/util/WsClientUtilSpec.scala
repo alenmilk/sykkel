@@ -32,7 +32,7 @@ class WsClientUtilSpec extends PlaySpec with org.scalatest.mockito.MockitoSugar 
   }
 
   val httpBody = "http body response"
-  "executeRequest og postRequest" must {
+  "executeRequest" must {
     "success" in {
       val wsMock = mock[WSClient]
       val request = mock[WSRequest]

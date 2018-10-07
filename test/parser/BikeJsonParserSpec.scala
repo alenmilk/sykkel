@@ -33,6 +33,7 @@ class BikeJsonParserSpec extends PlaySpec {
       titles.isEmpty mustBe false
       titles.get(210).get mustBe "Birkelunden"
     }
+    
     "Titles one station duplicate " in {
       val titles = parser.parseStationTitles(
         Json.parse(
@@ -50,6 +51,7 @@ class BikeJsonParserSpec extends PlaySpec {
       titles.size mustBe 1
       titles.get(210).get mustBe "Birkelunden2"
     }
+    
     "Titles three stations" in {
       val titles = parser.parseStationTitles(
         Json.parse(
