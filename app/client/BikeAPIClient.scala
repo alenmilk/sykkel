@@ -21,10 +21,10 @@ class BikeAPIClientImpl @Inject() (ws: WSClientCall, implicit val configuration:
   def availableUrl: String = configuration.get[String]("stationAPI.availability")
   def apiKey: String = configuration.get[String]("stationAPI.apiKey")
 
-  def getStations = call(stationsUrl, apiKey)
-  def getAvailable = call(availableUrl, apiKey)
+  def getStations = call(stationsUrl)
+  def getAvailable = call(availableUrl)
 
-  def call(url: String, apiKey: String): Try[String] = {
+  def call(url: String): Try[String] = {
     val executeTry: Try[Try[String]] = Try {
       val req = ws.url(url).addHttpHeaders("Client-Identifier" -> apiKey)
       ws.executeRequest(req)
