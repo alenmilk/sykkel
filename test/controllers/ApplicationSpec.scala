@@ -24,7 +24,7 @@ class ApplicationSpec extends PlaySpec with org.scalatest.mockito.MockitoSugar {
       val result = app.generateResult
       result.header.status mustBe 500
     }
-    
+
     "getAvailable exception returns 500" in {
       val clientMock = mock[BikeAPIClient]
       val bikeParserMock = mock[BikeParser]

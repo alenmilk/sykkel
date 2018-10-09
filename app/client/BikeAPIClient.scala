@@ -4,6 +4,8 @@ import util.WSClientCall
 import com.google.inject.ImplementedBy
 import javax.inject._
 import scala.util.Try
+import scala.util.Success
+import scala.util.Failure
 
 @ImplementedBy(classOf[BikeAPIClientImpl])
 trait BikeAPIClient {
@@ -13,19 +15,21 @@ trait BikeAPIClient {
   def getAvailable: Try[String]
 }
 
-
 @Singleton
 class BikeAPIClientImpl @Inject() (ws: WSClientCall, implicit val configuration: play.api.Configuration) extends BikeAPIClient {
   def stationsUrl: String = configuration.get[String]("stationAPI.generalInfo")
   def availableUrl: String = configuration.get[String]("stationAPI.availability")
-  def apiKey: String = configuration.get[String]("stationAPI.apiKey") 
+  def apiKey: String = configuration.get[String]("stationAPI.apiKey")
 
   def getStations = call(stationsUrl, apiKey)
   def getAvailable = call(availableUrl, apiKey)
-  
+
   def call(url: String, apiKey: String): Try[String] = {
-    val req = ws.url(url).addHttpHeaders("Client-Identifier" -> apiKey)
-    ws.executeRequest(req)
+    val executeTry: Try[Try[String]] = Try {
+      val req = ws.url(url).addHttpHeaders("Client-Identifier" -> apiKey)
+      ws.executeRequest(req)
+    }
+    executeTry.flatten
   }
 
 }
